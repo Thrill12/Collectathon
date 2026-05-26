@@ -21,6 +21,7 @@ public class Collectathon {
 
         ITEMS = new ModItems(modEventBus);
         COMPONENTS = new ModComponents(modEventBus);
+        ModLootModifiers.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

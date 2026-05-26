@@ -36,7 +36,7 @@ public class CardManager {
         try {
             Files.createDirectories(path.getParent());
             List<CardData> defaults =
-                    List.of(new CardData("card_steve", "§6Steve", List.of("§7Season 1 MVP")));
+                    List.of(new CardData("card_steve", "§6Steve", List.of("§7Season 1 MVP"), 1f));
             Files.writeString(path, GSON.toJson(defaults));
         } catch (IOException e) {
             Collectathon.LOGGER.error("Failed to create default cards config", e);
