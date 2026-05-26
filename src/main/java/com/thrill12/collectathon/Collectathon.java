@@ -1,13 +1,12 @@
 package com.thrill12.collectathon;
 
 import org.slf4j.Logger;
-
 import com.mojang.logging.LogUtils;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -26,19 +25,24 @@ public class Collectathon {
     public static final String MODID = "collectathon";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredItem<Item> CARD_ITEM = ITEMS.registerSimpleItem("example_item");
+    public static final DeferredItem<Item> CARD_ITEM = ITEMS.registerItem("card",
+            props -> new Item(props.stacksTo(1).rarity(Rarity.UNCOMMON)));
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CARDS_TAB = CREATIVE_MODE_TABS.register("collectathon_cards", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.collectathon")) //The language key for the title of your CreativeModeTab
-            .icon(() -> CARD_ITEM.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(CARD_ITEM.get());
-            }).build());
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CARDS_TAB =
+            CREATIVE_MODE_TABS.register("collectathon_cards",
+                    () -> CreativeModeTab.builder()
+                            .title(Component.translatable("itemGroup.collectathon"))
+                            .icon(() -> CARD_ITEM.get().getDefaultInstance())
+                            .displayItems((parameters, output) -> {
+                                output.accept(CARD_ITEM.get());
+                            }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
-    // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+    // FML will recognize some parameter types like IEventBus or ModContainer and pass them in
+    // automatically.
     public Collectathon(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -49,8 +53,10 @@ public class Collectathon {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (Collectathon) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+        // Note that this is necessary if and only if we want *this* class (Collectathon) to respond
+        // directly to events.
+        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class,
+        // like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us

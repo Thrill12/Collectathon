@@ -1,13 +1,7 @@
 {
-  "itemGroup.collectathon": "Example Mod Tab",
-  "block.collectathon.example_block": "Example Block",
-  "item.collectathon.example_item": "Example Item",
-
+  "itemGroup.collectathon": "Collectathon",
+    "item.collectathon.card": "Collectible Card",
   "collectathon.configuration.title": "Collectathon Configs",
   "collectathon.configuration.section.collectathon.common.toml": "Collectathon Configs",
-  "collectathon.configuration.section.collectathon.common.toml.title": "Collectathon Configs",
-  "collectathon.configuration.items": "Item List",
-  "collectathon.configuration.logDirtBlock": "Log Dirt Block",
-  "collectathon.configuration.magicNumberIntroduction": "Magic Number Text",
-  "collectathon.configuration.magicNumber": "Magic Number"
+  "collectathon.configuration.section.collectathon.common.toml.title": "Collectathon Configs"
 }
