@@ -5,8 +5,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -28,8 +26,8 @@ public class Collectathon {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredItem<Item> CARD_ITEM = ITEMS.registerItem("card",
-            props -> new Item(props.stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<CardItem> CARD_ITEM =
+            ITEMS.registerItem("card", props -> new CardItem(props.stacksTo(1)));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CARDS_TAB =
             CREATIVE_MODE_TABS.register("collectathon_cards",
