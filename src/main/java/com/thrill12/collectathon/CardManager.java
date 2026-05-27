@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,18 +24,31 @@ public class CardManager {
 
         try (Reader reader = Files.newBufferedReader(configPath)) {
             CardData[] loaded = GSON.fromJson(reader, CardData[].class);
-            cards = Arrays.asList(loaded);
+            cards = new ArrayList<>(List.of(loaded));
+            addShinies();
             Collectathon.LOGGER.info("Loaded {} cards", cards.size());
         } catch (IOException e) {
             Collectathon.LOGGER.error("Failed to load cards config", e);
         }
     }
 
+    private static void addShinies() {
+        List<CardData> shinyCards = new ArrayList<>();
+        for (CardData card : cards) {
+            if (!card.shiny()) {
+                CardData shinyCard = new CardData(card.id() + "_shiny", card.displayName(),
+                        card.lore(), card.dropChance() / 50f, true);
+                shinyCards.add(shinyCard);
+            }
+        }
+        cards.addAll(shinyCards);
+    }
+
     private static void createDefault(Path path) {
         try {
             Files.createDirectories(path.getParent());
-            List<CardData> defaults =
-                    List.of(new CardData("card_steve", "§6Steve", List.of("§7Season 1 MVP"), 1f));
+            List<CardData> defaults = List.of(
+                    new CardData("card_steve", "§6Steve", List.of("§7Season 1 MVP"), 1f, false));
             Files.writeString(path, GSON.toJson(defaults));
         } catch (IOException e) {
             Collectathon.LOGGER.error("Failed to create default cards config", e);
