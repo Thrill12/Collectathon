@@ -29,6 +29,11 @@ public class CardItem extends Item {
 
         CardData data = stack.get(ModComponents.CARD_DATA.get());
         if (data != null) {
+            builder.accept(Component.literal(data.set() + " Set"));
+
+            // Empty line
+            builder.accept(Component.literal(""));
+
             for (String line : data.lore()) {
                 builder.accept(Component.literal(line));
             }
