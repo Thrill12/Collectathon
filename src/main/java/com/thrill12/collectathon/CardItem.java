@@ -36,4 +36,10 @@ public class CardItem extends Item {
 
         super.appendHoverText(stack, context, display, builder, tooltipFlag);
     }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        CardData data = stack.get(ModComponents.CARD_DATA.get());
+        return data != null && data.shiny();
+    }
 }
