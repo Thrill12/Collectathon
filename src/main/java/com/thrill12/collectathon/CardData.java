@@ -14,7 +14,7 @@ import net.minecraft.network.codec.StreamCodec;
  * a random card, on every fish and chest loot roll.
  */
 public record CardData(String id, String displayName, List<String> lore, Float dropChance,
-                boolean shiny) {
+                boolean shiny, String set) {
         public static final Codec<CardData> CODEC = RecordCodecBuilder.create(instance -> instance
                         .group(Codec.STRING.fieldOf("id").forGetter(CardData::id),
                                         Codec.STRING.fieldOf("displayName")
@@ -24,14 +24,16 @@ public record CardData(String id, String displayName, List<String> lore, Float d
                                         Codec.FLOAT.fieldOf("dropChance")
                                                         .forGetter(CardData::dropChance),
                                         Codec.BOOL.optionalFieldOf("shiny", false)
-                                                        .forGetter(CardData::shiny))
+                                                        .forGetter(CardData::shiny),
+                                        Codec.STRING.optionalFieldOf("set", "default")
+                                                        .forGetter(CardData::set))
                         .apply(instance, CardData::new));
 
-        public static final StreamCodec<ByteBuf, CardData> STREAM_CODEC =
-                        StreamCodec.composite(ByteBufCodecs.stringUtf8(256), CardData::id,
-                                        ByteBufCodecs.stringUtf8(256), CardData::displayName,
-                                        ByteBufCodecs.collection(ArrayList::new,
-                                                        ByteBufCodecs.stringUtf8(256)),
-                                        CardData::lore, ByteBufCodecs.FLOAT, CardData::dropChance,
-                                        ByteBufCodecs.BOOL, CardData::shiny, CardData::new);
+        public static final StreamCodec<ByteBuf, CardData> STREAM_CODEC = StreamCodec.composite(
+                        ByteBufCodecs.stringUtf8(256), CardData::id, ByteBufCodecs.stringUtf8(256),
+                        CardData::displayName,
+                        ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.stringUtf8(256)),
+                        CardData::lore, ByteBufCodecs.FLOAT, CardData::dropChance,
+                        ByteBufCodecs.BOOL, CardData::shiny, ByteBufCodecs.stringUtf8(256),
+                        CardData::set, CardData::new);
 }

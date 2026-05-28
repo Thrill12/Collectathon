@@ -1,6 +1,7 @@
 package com.thrill12.collectathon;
 
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +30,11 @@ public class CardItem extends Item {
 
         CardData data = stack.get(ModComponents.CARD_DATA.get());
         if (data != null) {
+            builder.accept(Component.literal(data.set() + " Set").withStyle(ChatFormatting.AQUA));
+
+            // Empty line
+            builder.accept(Component.literal(""));
+
             for (String line : data.lore()) {
                 builder.accept(Component.literal(line));
             }
