@@ -3,7 +3,7 @@ package com.thrill12.collectathon;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -16,13 +16,13 @@ public class CardLootModifier extends LootModifier {
                     .apply(instance, CardLootModifier::new));
 
     public CardLootModifier(LootItemCondition[] conditions) {
-        super(conditions, 0);
+        super(conditions);
     }
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot,
             LootContext context) {
-        Identifier tableId = context.getQueriedLootTableId();
+        ResourceLocation tableId = context.getQueriedLootTableId();
         String tableStr = tableId.toString();
 
         boolean isChest = tableStr.startsWith("minecraft:chests/");

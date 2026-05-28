@@ -1,12 +1,11 @@
 package com.thrill12.collectathon;
 
-import java.util.function.Consumer;
+import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 
 public class CardItem extends Item {
     public CardItem(Properties props) {
@@ -26,21 +25,22 @@ public class CardItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,
-            TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+            List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 
         CardData data = stack.get(ModComponents.CARD_DATA.get());
         if (data != null) {
-            builder.accept(Component.literal(data.set() + " Set").withStyle(ChatFormatting.AQUA));
+            tooltipComponents
+                    .add(Component.literal(data.set() + " Set").withStyle(ChatFormatting.AQUA));
 
             // Empty line
-            builder.accept(Component.literal(""));
+            tooltipComponents.add(Component.literal(""));
 
             for (String line : data.lore()) {
-                builder.accept(Component.literal(line));
+                tooltipComponents.add(Component.literal(line).withStyle(ChatFormatting.GRAY));
             }
         }
 
-        super.appendHoverText(stack, context, display, builder, tooltipFlag);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
     @Override

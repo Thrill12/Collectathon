@@ -84,8 +84,8 @@ public class AdvancementManager {
         icon.addProperty("id", "minecraft:book");
 
         display.add("icon", icon);
-        display.addProperty("title", setDisplayName);
-        display.addProperty("description", "Card collection: " + setId);
+        display.addProperty("title", "&b" + setDisplayName);
+        display.addProperty("description", "Card collection: &b" + setDisplayName);
 
         display.addProperty("frame", "challenge");
         display.addProperty("show_toast", false);
@@ -123,7 +123,7 @@ public class AdvancementManager {
         display.add("icon", icon);
         display.addProperty("title", "Card Collector");
         display.addProperty("description", "Start collecting cards!");
-        display.addProperty("background", "minecraft:gui/advancements/backgrounds/stone");
+        display.addProperty("background", "minecraft:stone");
         display.addProperty("frame", "task");
         display.addProperty("show_toast", false);
         display.addProperty("announce_to_chat", false);
